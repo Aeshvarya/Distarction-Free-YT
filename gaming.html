@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming - Distraction Free</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a1a 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', Arial, sans-serif;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 59, 59, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: bgPulse 15s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 59, 59, 0.3);
+            z-index: 1000;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 59, 59, 0.5);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8b8b 100%);
+        }
+
+        .back-button::before {
+            content: '←';
+            font-size: 1.3em;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #fff;
+            font-size: 3.5em;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 80px 0 60px 0;
+            background: linear-gradient(135deg, #ff3b3b 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 59, 59, 0.5)); }
+            50% { filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.8)); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-section {
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .creator-section:nth-child(1) { animation-delay: 0.1s; }
+        .creator-section:nth-child(2) { animation-delay: 0.2s; }
+        .creator-section:nth-child(3) { animation-delay: 0.3s; }
+        .creator-section:nth-child(4) { animation-delay: 0.4s; }
+        .creator-section:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: inline-block;
+            color: #fff;
+            font-size: 2em;
+            font-weight: 700;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 25px rgba(255, 59, 59, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .section-header:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 59, 59, 0.5);
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 59, 59, 0.05);
+            border: 2px solid rgba(255, 59, 59, 0.2);
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 59, 59, 0.4);
+            border-color: rgba(255, 59, 59, 0.5);
+        }
+
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff3b3b, #ff8c00, #ff3b3b);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .video-wrapper:hover::before {
+            opacity: 1;
+        }
+
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            display: block;
+            border-radius: 18px;
+        }
+
+        .single-video-section {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .single-video-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) {
+            .videos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5em;
+                margin: 60px 0 40px 0;
+            }
+
+            .back-button {
+                top: 20px;
+                left: 20px;
+                padding: 12px 24px;
+                font-size: 1em;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .section-header {
+                font-size: 1.5em;
+                padding: 15px 30px;
+            }
+
+            .creator-section {
+                margin-bottom: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2em;
+            }
+
+            .back-button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            .section-header {
+                font-size: 1.2em;
+                padding: 12px 24px;
+            }
+        }
+
+        .glow-particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #ff3b3b;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: particleFloat 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-100px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="back-button">Back to Home</a>
+
+    <h1 class="page-title">🎮 Gaming</h1>
+
+    <div class="container">
+        <div class="creator-section">
+            <h3 class="section-header">Mortal</h3>
+            <div class="videos-grid">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/aByy45uqHkE?si=KfMKpyEUgy_RZVpH"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/yWY8X5MqAtk?si=FJ3u6sh6LnNVz0Kz"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/hBDHB9qu5ME?si=QEqiGrJPMKth3iA8"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="creator-section">
+            <h3 class="section-header">Scout</h3>
+            <div class="videos-grid">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/skb3be_1zeM?si=kmDbqytxzjoZeiFo"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/RXKBQuGSLlk?si=IKHmP72NMabnCAwf"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/edEQw5XBrcE?si=8qeN_dmOKUFnqdM4"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="single-video-section">
+            <h3 class="section-header">Dynamo</h3>
+            <div class="single-video-wrapper">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/XW0g0uBecxU"
+                        title="Dynamo Gaming" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="single-video-section">
+            <h3 class="section-header">Jonathan</h3>
+            <div class="single-video-wrapper">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/bKmQ9EcpCXg"
+                        title="Jonathan Gaming" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="single-video-section">
+            <h3 class="section-header">Mavi</h3>
+            <div class="single-video-wrapper">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/gmZyECqbPzM"
+                        title="Mavi" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="single-video-section">
+            <h3 class="section-header">Regaltos</h3>
+            <div class="single-video-wrapper">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Wp8E3N7Z2ys"
+                        title="Regaltos" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="single-video-section">
+            <h3 class="section-header">Snax</h3>
+            <div class="single-video-wrapper">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ZsWMIu9lpMo"
+                        title="Snax Gaming" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating glow particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'glow-particle';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 4000);
+        }
+
+        setInterval(createParticle, 400);
+
+        // Add subtle parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const sections = document.querySelectorAll('.creator-section, .single-video-section');
+                    
+                    sections.forEach((section, index) => {
+                        const speed = (index % 2 === 0) ? 0.3 : -0.3;
+                        section.style.transform = `translateY(${scrolled * speed * 0.1}px)`;
+                    });
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+
+</html>
